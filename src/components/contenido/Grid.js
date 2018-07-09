@@ -15,16 +15,16 @@ export class Grid extends Component {
   }
 
   createRows = () => {
-    let rows = [];
-    for (let i = 1; i < 1000; i++) {
+    /*let rows = [];
+    for (let i = 1; i < this.props.rows; i++) {
       rows.push({
         id: i,
         title: 'Title ' + i,
         count: i * 1000
       });
-    }
+    }*/
 
-    this._rows = rows;
+    this._rows = this.props.rows;
   };
 
   rowGetter = (i) => {

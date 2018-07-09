@@ -10,6 +10,7 @@ export class Asociaciones extends Component{
 		this.state = {
       estado:props.estado
     }
+		this._cargaInicial()
     //this.loading = true
     console.log("CONSTRUCTOR PROPS ASOCIACIONES", props);
 		console.log("CONSTRUCTOR STATE ASOCIACIONES----", this.state);
@@ -21,11 +22,23 @@ export class Asociaciones extends Component{
     this.setState({estado:estado})
   }
 
+	_cargaInicial(){
+
+	}
+
 	_cargarEstadoCorrespondiente(){
     //console.log("ENTRA A RENDER TITLE::", this.state)
 		console.log("ENTRA A RENDER PROPS::", this.props)
     switch(this.state.estado) {
       case "listado":
+				this.state.cargaDatos = false;
+				let resp
+				if(this.state.cargaDatos){
+					resp = <ListadoAsociaciones onResults={this._retornoEstado}/>
+				}else{
+					resp = <p>loading</p>
+				}
+
 				return <ListadoAsociaciones onResults={this._retornoEstado}/>
       break;
       case "nuevo":

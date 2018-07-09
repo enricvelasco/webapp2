@@ -15,7 +15,7 @@ import {Asociaciones} from './components/contenido/asociaciones/Asociaciones'
 
 
 class App extends Component {
-  state = {logged:false,//activar desactivar login auto
+  state = {logged:true,//activar desactivar login auto
             cargaMenu:false}
   componentWillMount(){//se ejecuta la primera vez que entra
     console.log("EJECUTA COMPONENT WILL MOUNT PANTALLA PRINCIPAL");
