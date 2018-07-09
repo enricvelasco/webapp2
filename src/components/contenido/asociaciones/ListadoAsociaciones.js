@@ -4,6 +4,7 @@ import {Grid} from '../Grid'
 import { Link } from 'react-router-dom';
 import db from '../../../firebase'
 import {Loading} from '../../Loading'
+import {CampoLink} from '../../componentesGrid/CampoLink'
 
 export class ListadoAsociaciones extends Component{
 	//state = {cargandoDatos:true}
@@ -14,12 +15,17 @@ export class ListadoAsociaciones extends Component{
     }
     /*this.createRows();*/
     this._columns = [
-      { key: 'codigo', name: 'Código' },
+      { key: 'codigo', name: 'Código', formatter: <CampoLink campo={"ari"}/> },
 			{ key: 'nombreAsociacion', name: 'Nombre' },
       { key: 'email', name: 'Email' },
       { key: 'telefono', name: 'Telefono' } ];
 
   }
+
+	clickEnCasilla(){
+		console.log("CLICK EN CASILLA");
+	}
+
 	componentDidMount(){
 		console.log("COMPONENT DID MOUNT");
 		let rows = [];
