@@ -14,13 +14,18 @@ export class ListadoAsociaciones extends Component{
       loading:true
     }
     /*this.createRows();*/
-    this._columns = [
-      { key: 'codigo', name: 'Código', formatter: <CampoLink campo={"ari"}/> },
+
+
+  }
+
+	cargarColumnas(){
+		this._columns = [
+      //{ key: 'nombreAsociacion', name: 'Nombre', formatter: <CampoLink/> },
+			{ key: 'codigo', name: 'Codigo' },
 			{ key: 'nombreAsociacion', name: 'Nombre' },
       { key: 'email', name: 'Email' },
       { key: 'telefono', name: 'Telefono' } ];
-
-  }
+	}
 
 	clickEnCasilla(){
 		console.log("CLICK EN CASILLA");
@@ -37,6 +42,7 @@ export class ListadoAsociaciones extends Component{
 		    });
 				this._rows = rows;
 				console.log("LISTADO", rows);
+				this.cargarColumnas()
 				this.setState({loading: false
                     })
 		});
