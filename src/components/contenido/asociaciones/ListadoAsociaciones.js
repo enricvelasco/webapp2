@@ -6,6 +6,8 @@ import db from '../../../firebase'
 import {Loading} from '../../Loading'
 import {CampoLink} from '../../componentesGrid/CampoLink'
 
+//const CampoEdicion = <CampoLink registro={registro}>
+
 export class ListadoAsociaciones extends Component{
 	//state = {cargandoDatos:true}
 	constructor(props, context) {
@@ -21,12 +23,19 @@ export class ListadoAsociaciones extends Component{
 	cargarColumnas(){
 		this._columns = [
       //{ key: 'nombreAsociacion', name: 'Nombre', formatter: <CampoLink/> },
-			{ key: 'codigo', name: 'Codigo' },
+			//{key:'valorEdicion', name:'Edicion', formatter: <CampoLink registro={registro}>},
+			//{key: 'id', name:'#'},
+			{ key: 'codigoLink', name: 'Codigo', formatter: <CampoLink registro={this.value} onResults={this._respuestaCampoLink}/>},
 			{ key: 'nombreAsociacion', name: 'Nombre' },
       { key: 'email', name: 'Email' },
       { key: 'telefono', name: 'Telefono' } ];
 	}
 
+	_respuestaCampoLink=(e)=>{
+		console.log("REPUESTA CAMPO LINK", e);
+		//this._cargarFormulario(null, 'nuevo', e);
+		this.props.onResults('nuevo', e)
+	}
 	clickEnCasilla(){
 		console.log("CLICK EN CASILLA");
 	}
@@ -37,7 +46,13 @@ export class ListadoAsociaciones extends Component{
 		db.collection("asociaciones").get().then((querySnapshot) => {
 		    querySnapshot.forEach(function(doc) {
 		        // doc.data() is never undefined for query doc snapshots
-						rows.push(doc.data())
+						let registro = {}
+
+						registro.id = doc.id
+						registro = doc.data()
+						//registro.valorEdicion = doc.data().codigo
+						registro.codigoLink = doc
+						rows.push(registro)
 		        console.log("-----",doc.id, " => ", doc.data());
 		    });
 				this._rows = rows;
@@ -47,62 +62,21 @@ export class ListadoAsociaciones extends Component{
                     })
 		});
 	}
-	_cargarFormulario=(e, estado)=>{
+	_cargarFormulario=(e, estado, registro)=>{
     console.log("SELECCIONA NUEVO", estado);
 
-		this.props.onResults(estado)
+		this.props.onResults(estado, null)
   }
 
 	createRows = () => {
-		/*let rows = [];
-		db.collection("asociaciones").get().then((querySnapshot) => {
-		    querySnapshot.forEach(function(doc) {
-		        // doc.data() is never undefined for query doc snapshots
-						rows.push(doc.data())
-		        console.log("-----",doc.id, " => ", doc.data());
-		    });
-				this._rows = rows;
-				this.state.cargando = false;
-				this.campoGrid = <p>adeu</p>
-				console.log("LISTADO", rows);
-				console.log("STATE", this.state);
-				this._cargaDatos()
-		});*/
-    /*let rows = [];
-    for (let i = 1; i < 1000; i++) {
-      rows.push({
-        id: i,
-        title: 'Title ' + i,
-        count: i * 1000
-      });
-    }
-
-    this._rows = rows;*/
-
-		//this.campoGrid = <p>caca</p>
   };
-
-	/*_cargaDatos = () =>{
-    //console.log("ENTRA A RENDER TITLE::", this.state)
-		console.log("CARGAR DATOS::", this.state.cargando)
-    switch(this.state.cargando) {
-      case true:
-			console.log("carga loading");
-				this.state.cargando = false
-				this._cargaDatos()
-				return <p>loading...</p>
-      break;
-      case false:
-			console.log("carga GRID");
-				return <p>AAAA...</p>
-        //return <Grid columnas={this._columns} rows={this._rows}/>
-      break;
-    }
-  }*/
-
+	_retornoSeleccionesGrid(e){
+		console.log("SELECCIONES RETORNADAS", e);
+	}
 	_asignarEstadoPantalla = (estado)=>{
 		return(
-        <Grid columnas={this._columns} rows={this._rows}/>
+        <Grid columnas={this._columns} rows={this._rows} onResults={this._retornoSeleccionesGrid}/>
+				//<GridTest/>
       )
 	}
 
@@ -127,14 +101,11 @@ export class ListadoAsociaciones extends Component{
 							</div>
 						</div>
 						<div className="columns">
-								<div className="column">
-									<Link to='/asociaciones/new' className="button is-primary" onClick={((e) => this._cargarFormulario(e, 'nuevo'))}>Nuevo</Link>
+								<div>
+									<Link to='/asociaciones/new' className="button is-primary" onClick={((e) => this._cargarFormulario(e, 'nuevo', null))}>Nuevo</Link>
 								</div>
-								<div className="column">
-									<a className="button is-primary">Second</a>
-								</div>
-								<div className="column">
-									<a className="button is-primary">Third</a>
+								<div>
+									<a className="button is-danger">Eliminar</a>
 								</div>
 						</div>
 						<div>

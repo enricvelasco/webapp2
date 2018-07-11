@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import {CampoLink} from '../componentesGrid/CampoLink'
 const ReactDataGrid = require('react-data-grid');
 
+const rowsSeleccionadas = []
+
 export class Grid extends Component {
   constructor(props, context) {
     super(props, context);
@@ -55,19 +57,31 @@ export class Grid extends Component {
   };
 
   onRowsSelected = (rows) => {
-    this.setState({selectedIndexes: this.state.selectedIndexes.concat(rows.map(r => r.rowIdx))});
-    console.log("ROW SELECTED", rows);
+    this.setState({
+      selectedIndexes: this.state.selectedIndexes.concat(
+        rows.map(r => r.rowIdx)
+      )
+    });
   };
 
   onRowsDeselected = (rows) => {
     let rowIndexes = rows.map(r => r.rowIdx);
     this.setState({selectedIndexes: this.state.selectedIndexes.filter(i => rowIndexes.indexOf(i) === -1 )});
-    console.log("ROW DESSELECTED", rows);
-  };
-
+  }
+  _montarRespuesta = (seleccionados, arrRows) =>{
+    var arrResp = []
+    seleccionados.forEach(function(index){
+      arrResp.push(arrRows[index])
+    })
+    this.props.onResults(arrResp)
+  }
   render() {
     const rowText = this.state.selectedIndexes.length === 1 ? 'row' : 'rows';
+    console.log("ROW RENDER", this.state.selectedIndexes);
+    this._montarRespuesta(this.state.selectedIndexes, this._rows)
     return  (
+      <div>
+      <span>{this.state.selectedIndexes.length} {rowText} selected</span>
       <ReactDataGrid
         columns={this._columns}
         rowGetter={this.rowGetter}
@@ -78,13 +92,14 @@ export class Grid extends Component {
 
         rowSelection={{
             showCheckbox: true,
-            enableShiftSelect: true,
+            enableShiftSelect: false,
             onRowsSelected: this.onRowsSelected,
             onRowsDeselected: this.onRowsDeselected,
             selectBy: {
               indexes: this.state.selectedIndexes
             }
           }}
-        minHeight={500} />);
+        minHeight={500} />
+      </div>);
   }
 }

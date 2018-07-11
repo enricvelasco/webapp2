@@ -10,6 +10,7 @@ export class FormularioAsociaciones extends Component{
 	constructor(props) {
     super(props);
     this.state = {objGuardar:{}};
+		console.log("FORMULARIO PROPS LLEGAN", props);
   }
 	/*componentDidMount() {
 		console.log("FORM COMPONENT DID MOUNT");
@@ -23,9 +24,7 @@ export class FormularioAsociaciones extends Component{
 		this.props.onResults("listado")
 	}
 	_saveFormulario=(e)=>{
-		console.log("GUARDAR INFO",this.state.objGuardar);
 		let user = firebase.auth().currentUser;
-    console.log("EL USUARIO ACTUAL", user);
 		//var cityRef = db.collection('asociaciones')
 		db.collection("asociaciones").add(this.state.objGuardar)
 		.then((docRef) => {//.then((user) => {
@@ -36,17 +35,16 @@ export class FormularioAsociaciones extends Component{
 		.catch(function(error) {
 		    console.error("ERROR AL AÑADIR", error);
 		});
-		console.log("RECUPERA COLLECTION");
 	}
 
 	render(){
     return(
 	        <div className="box margenes-box-listado">
 						<ul>
-							<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Código Asociación"} campo={"codigo"} maxLength={5}/></li>
-							<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Nombre Asociación"} campo={"nombreAsociacion"} maxLength={100}/></li>
-							<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Email"} campo={"email"}/></li>
-							<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Telefono"} campo={"telefono"}/></li>
+							<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Código Asociación"} campo={"codigo"} valor={this.props.parametros != null? this.props.parametros.codigo : null} maxLength={5}/></li>
+							<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Nombre Asociación"} campo={"nombreAsociacion"} valor={this.props.parametros != null? this.props.parametros.nombreAsociacion : null} maxLength={100}/></li>
+							<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Email"} campo={"email"} valor={this.props.parametros != null? this.props.parametros.email : null}/></li>
+							<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Telefono"} campo={"telefono"} valor={this.props.parametros != null? this.props.parametros.telefono : null}/></li>
 						</ul>
 						<div className="columns">
 						  <div className="column is-half">

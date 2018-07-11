@@ -4,7 +4,10 @@ import firebase from 'firebase';
 export class InputText extends Component{
   constructor(props){
     super(props)
-    if(props.obligatorio){
+
+    this.campo = this.props.valor
+
+    if(props.obligatorio && this.campo==null){
       this.state = {
         hayError:true,
         errorMessage:"campo obligatorio"
@@ -25,9 +28,11 @@ export class InputText extends Component{
   componentDidMount() {
     console.log("COMPONENT DID MOUNT PROPS", this.props);
     console.log("COMPONENT DID MOUNT STATE", this.state);
+    //this.campo = this.props.valor
     if(this.props.obligatorio != undefined){
       this.setState({
-        errorObligatorio:true
+        errorObligatorio:true,
+        errorMessage:"campo obligatorio"
       })
     }
     if(this.props.minLength != undefined){
@@ -44,6 +49,8 @@ export class InputText extends Component{
 
   _cambioEnTexto=(e)=>{
     console.log("DETECTA EL ONCHANGE", e.target.value);
+
+    this.campo = e.target.value
 
     if(this.props.obligatorio != undefined){
       if(this.props.obligatorio && e.target.value == ""){
@@ -146,10 +153,10 @@ export class InputText extends Component{
       <div className="campo-input-generico-padding">
           <ul>
             <li><p>{this.props.tituloCampo}</p></li>
-            <li>{this.state.hayError?
+            <li>{this.state.errorObligatorio?
                 <input className="input is-danger" type="text" onChange={this._cambioEnTexto}/>
                 :
-                <input className="input" type="text" onChange={this._cambioEnTexto}/>
+                <input className="input" type="text" onChange={this._cambioEnTexto} value={this.campo}/>
               }
             </li>
             <li>

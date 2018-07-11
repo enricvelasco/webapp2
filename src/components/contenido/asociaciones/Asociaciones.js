@@ -17,9 +17,9 @@ export class Asociaciones extends Component{
     //console.log("CONSTRUCTOR", this.state);
   }
 
-	_retornoEstado = (estado) =>{
+	_retornoEstado = (estado, params) =>{
     console.log("RETORNA ESTADO", estado);
-    this.setState({estado:estado})
+    this.setState({estado:estado, parametros:params})
   }
 
 	_cargaInicial(){
@@ -27,7 +27,7 @@ export class Asociaciones extends Component{
 	}
 
 	_cargarEstadoCorrespondiente(){
-    //console.log("ENTRA A RENDER TITLE::", this.state)
+    console.log("STATE CAMBIO ESTADO::", this.state)
 		console.log("ENTRA A RENDER PROPS::", this.props)
     switch(this.state.estado) {
       case "listado":
@@ -42,7 +42,7 @@ export class Asociaciones extends Component{
 				return <ListadoAsociaciones onResults={this._retornoEstado}/>
       break;
       case "nuevo":
-        return <FormularioAsociaciones onResults={this._retornoEstado}/>
+        return <FormularioAsociaciones parametros={this.state.parametros != null? this.state.parametros : null} onResults={this._retornoEstado}/>
       break;
     }
   }
