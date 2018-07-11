@@ -5,6 +5,12 @@ export class InputText extends Component{
   constructor(props){
     super(props)
 
+    /*if(this.props.valor == null){
+      this.state.modoFormulario = 'nuevo'
+    }else{
+      this.state.modoFormulario = 'edicion'
+    }*/
+
     this.campo = this.props.valor
 
     if(props.obligatorio && this.campo==null){
@@ -26,15 +32,18 @@ export class InputText extends Component{
   }
 
   componentDidMount() {
-    console.log("COMPONENT DID MOUNT PROPS", this.props);
+    //console.log("COMPONENT DID MOUNT PROPS", this.props);
     console.log("COMPONENT DID MOUNT STATE", this.state);
     //this.campo = this.props.valor
-    if(this.props.obligatorio != undefined){
-      this.setState({
+    if(this.props.obligatorio != undefined/*&& (this.campo == "" || this.campo == null)*/){
+      this.state.errorObligatorio = true
+      this.state.errorMessage = "campo obligatorio"
+      /*this.setState({
         errorObligatorio:true,
         errorMessage:"campo obligatorio"
-      })
+      })*/
     }
+
     if(this.props.minLength != undefined){
       this.setState({
         errorMinLength:true
@@ -53,20 +62,12 @@ export class InputText extends Component{
     this.campo = e.target.value
 
     if(this.props.obligatorio != undefined){
-      if(this.props.obligatorio && e.target.value == ""){
+      if(this.props.obligatorio && (e.target.value == "" || e.target.value == null)){
         this.state.errorObligatorio = true;
         this.state.errorMessageObl = "campo obligatorio"
-        /*this.setState({
-          //errorObligatorio:true,
-          errorMessage:"campo obligatorio"
-        })*/
       }else{
         this.state.errorObligatorio = false;
         this.state.errorMessageObl = null
-        /*this.setState({
-          //errorObligatorio:false,
-          errorMessage:null
-        })*/
       }
     }
 
@@ -75,18 +76,10 @@ export class InputText extends Component{
       if(this.props.minLength > e.target.value.length){
         this.state.errorMinLength = true;
         this.state.errorMessageMin = "no supera longitud mínima";
-        /*this.setState({
-          //errorMinLength:true,
-          errorMessage:"no supera longitud mínima"
-        })*/
       }else{
         console.log("LONGITUD CORRECTA");
         this.state.errorMinLength = false;
         this.state.errorMessageMin = null
-        /*this.setState({
-          //errorMinLength:false,
-          errorMessageMin:null
-        })*/
       }
     }
 
@@ -94,39 +87,18 @@ export class InputText extends Component{
       if(this.props.maxLength < e.target.value.length){
         this.state.errorMaxLength = true;
         this.state.errorMessageMax = "supera longitud máxima";
-        /*this.setState({
-          //errorMinLength:true,
-          errorMessageMax:"supera longitud máxima"
-        })*/
       }else{
         this.state.errorMaxLength = false;
         this.state.errorMessageMax = null;
-        /*this.setState({
-          //errorMinLength:false,
-          errorMessage:null
-        })*/
       }
     }
-/*
-    if(this.props.maxLength != undefined){
-      if(this.props.maxLength < e.target.value.length){
-        this.setState({
-          errorMessage:this.state.errorMessage + " / " + "supera longitud máxima"
-        })
-      }
-    }*/
-    /*this.setState({
-      [e.target.name]:e.target.value
-    })*/
 
     console.log("MENSAJE", this.state.errorObligatorio, "LENG",this.state.errorMinLength);
 
     if(!this.state.errorObligatorio && !this.state.errorMinLength && !this.state.errorMaxLength){
       console.log("NO HAY ERROR!!!");
-      this.setState({
-        hayError:false,
-        errorMessage:null
-      })
+      this.state.hayError = true
+      this.state.errorMessage = null
     }else{
       console.log("HAY ERROR!!!");
       //montar mensaje
@@ -139,10 +111,8 @@ export class InputText extends Component{
         errorMontado=this.state.errorMessageMax
       }
 
-      this.setState({
-        hayError:true,
-        errorMessage:errorMontado
-      })
+      this.state.hayError = false
+      this.state.errorMessage = errorMontado
     }
 
     this.props.onResults(this.props.campo, e.target.value)
@@ -153,7 +123,7 @@ export class InputText extends Component{
       <div className="campo-input-generico-padding">
           <ul>
             <li><p>{this.props.tituloCampo}</p></li>
-            <li>{this.state.errorObligatorio?
+            <li>{this.state.errorMessage?
                 <input className="input is-danger" type="text" onChange={this._cambioEnTexto}/>
                 :
                 <input className="input" type="text" onChange={this._cambioEnTexto} value={this.campo}/>

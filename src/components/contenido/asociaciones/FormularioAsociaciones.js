@@ -24,17 +24,32 @@ export class FormularioAsociaciones extends Component{
 		this.props.onResults("listado")
 	}
 	_saveFormulario=(e)=>{
+		console.log("GUARDAR",this.props);
+		console.log("GUARDAR STATE", this.state);
 		let user = firebase.auth().currentUser;
 		//var cityRef = db.collection('asociaciones')
-		db.collection("asociaciones").add(this.state.objGuardar)
-		.then((docRef) => {//.then((user) => {
-		    console.log("ASOCIACION AÑADIDA OK: ", docRef.id);
-				//enviar al Listado
-				this.props.onResults("listado")
-		})
-		.catch(function(error) {
-		    console.error("ERROR AL AÑADIR", error);
-		});
+		if(this.props.parametros == null){//hace un nuevo
+			console.log("CREA NUEVO!!!!!!!!!");
+			db.collection("asociaciones").add(this.state.objGuardar)
+			.then((docRef) => {//.then((user) => {
+			    console.log("ASOCIACION AÑADIDA OK: ", docRef.id);
+					//enviar al Listado
+					this.props.onResults("listado")
+			})
+			.catch(function(error) {
+			    console.error("ERROR AL AÑADIR", error);
+			});
+		}else{//hace un update
+			console.log("CREA EDICION!!!!!!!!!");
+			db.collection("asociaciones").doc(this.props.parametros.id).set(this.state.objGuardar, { merge: true })
+			.then(()=> {
+					this.props.onResults("listado")
+			    console.log("Document successfully written!");
+			})
+			.catch(function(error) {
+			    console.error("Error writing document: ", error);
+			});
+		}
 	}
 
 	render(){
