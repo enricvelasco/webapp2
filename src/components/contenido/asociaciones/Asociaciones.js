@@ -3,6 +3,7 @@ import firebase from 'firebase';
 import {Grid} from '../Grid'
 import {ListadoAsociaciones} from './ListadoAsociaciones'
 import {FormularioAsociaciones} from './FormularioAsociaciones'
+import {Loading} from '../../Loading'
 
 export class Asociaciones extends Component{
 	constructor(props){
@@ -18,12 +19,13 @@ export class Asociaciones extends Component{
   }
 
 	_retornoEstado = (estado, params) =>{
-    console.log("RETORNA ESTADO", estado);
+    console.log("RETORNA ESTADO", estado, params);
     this.setState({estado:estado, parametros:params})
   }
 
 	_cargaInicial(){
-
+		this.state.estado = 'listado'
+		this._cargarEstadoCorrespondiente()
 	}
 
 	_cargarEstadoCorrespondiente(){
@@ -31,13 +33,14 @@ export class Asociaciones extends Component{
 		console.log("ENTRA A RENDER PROPS::", this.props)
     switch(this.state.estado) {
       case "listado":
-				this.state.cargaDatos = false;
+			
+				/*this.state.cargaDatos = false;
 				let resp
 				if(this.state.cargaDatos){
 					resp = <ListadoAsociaciones onResults={this._retornoEstado}/>
 				}else{
 					resp = <p>loading</p>
-				}
+				*/
 
 				return <ListadoAsociaciones onResults={this._retornoEstado}/>
       break;

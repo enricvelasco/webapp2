@@ -97,8 +97,12 @@ export class InputText extends Component{
 
     if(!this.state.errorObligatorio && !this.state.errorMinLength && !this.state.errorMaxLength){
       console.log("NO HAY ERROR!!!");
-      this.state.hayError = true
-      this.state.errorMessage = null
+      this.setState({
+        hayError : false,
+        errorMessage : null
+      })
+      /*this.state.hayError = false
+      this.state.errorMessage = null*/
     }else{
       console.log("HAY ERROR!!!");
       //montar mensaje
@@ -110,9 +114,12 @@ export class InputText extends Component{
       }else if(this.state.errorMessageMax !=null){
         errorMontado=this.state.errorMessageMax
       }
-
-      this.state.hayError = false
-      this.state.errorMessage = errorMontado
+      this.setState({
+        hayError : true,
+        errorMessage : errorMontado
+      })
+      /*this.state.hayError = true
+      this.state.errorMessage = errorMontado*/
     }
 
     this.props.onResults(this.props.campo, e.target.value)
@@ -123,7 +130,7 @@ export class InputText extends Component{
       <div className="campo-input-generico-padding">
           <ul>
             <li><p>{this.props.tituloCampo}</p></li>
-            <li>{this.state.errorMessage?
+            <li>{this.state.hayError?
                 <input className="input is-danger" type="text" onChange={this._cambioEnTexto}/>
                 :
                 <input className="input" type="text" onChange={this._cambioEnTexto} value={this.campo}/>
