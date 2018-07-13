@@ -35,7 +35,7 @@ export class InputText extends Component{
     //console.log("COMPONENT DID MOUNT PROPS", this.props);
     console.log("COMPONENT DID MOUNT STATE", this.state);
     //this.campo = this.props.valor
-    if(this.props.obligatorio != undefined/*&& (this.campo == "" || this.campo == null)*/){
+    if(this.props.obligatorio != undefined && this.state.hayError/*&& (this.campo == "" || this.campo == null)*/){
       this.state.errorObligatorio = true
       this.state.errorMessage = "campo obligatorio"
       /*this.setState({

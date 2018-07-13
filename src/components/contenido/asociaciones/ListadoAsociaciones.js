@@ -3,6 +3,7 @@ import firebase from 'firebase';
 import {Grid} from '../Grid'
 import { Link } from 'react-router-dom';
 import db from '../../../firebase'
+//import firebase from 'firebase';
 import {Loading} from '../../Loading'
 import {CampoLink} from '../../componentesGrid/CampoLink'
 
@@ -130,38 +131,34 @@ export class ListadoAsociaciones extends Component{
 
 	_eliminarCampos =(e)=>{
 		console.log("ELIMINAR CAMPOS", this.state.camposGridSeleccionados);
-
-		//this.state.loading = true;
-
-		let arrDelOK = []
+		/*let arrDelOK = []
 		let arrDelErr = []
-
-		//this.state.camposGridSeleccionados.forEach((campo) =>{
-			//console.log("CAMPO ELIMINAR", campo);
 			db.collection("asociaciones").doc(this.state.camposGridSeleccionados[0].codigoLink.id).delete()
-			.then(() => {//.then((user) => {
-			    //console.log("ASOCIACION AÑADIDA OK: ", docRef.id);
-					//enviar al Listado
-					//this.props.onResults("listado")
+			.then(() => {
 					console.log("ELIMINADO OK");
 					this.state = {
 			      loading:true
 			    }
 					this._cargarDatos()
-					//arrDelOK.push(campo)
-					//this.props.onResults("listado")
-					//this.state.loading = false;
-					//console.log("FINAL", this.state.loading);
 			})
 			.catch(function(error) {
 			    console.error("ERROR AL AÑADIR", error, "en campo");
 					this.props.onResults("listado")
 					//arrDelErr.push(campo)
+			});*/
+			var addMessage = firebase.functions().httpsCallable('callFunction');
+			addMessage({text: 'hola'}).then(function(result) {
+			  // Read result of the Cloud Function.
+			  //var sanitizedMessage = result.data.text;
+				console.log("RESULTADO", result);
+			}).catch(function(error) {
+			  // Getting the Error details.
+			  var code = error.code;
+			  var message = error.message;
+			  var details = error.details;
+				console.log("ERROR");
+			  // ...
 			});
-
-		//})
-		//console.log("FINALIZA ELIMINAR");
-		//this.props.onResults("eliminar", this.state.camposGridSeleccionados)
 	}
 
 	/*render(){
