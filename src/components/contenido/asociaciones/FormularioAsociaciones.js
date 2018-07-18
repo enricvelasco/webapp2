@@ -3,6 +3,8 @@ import firebase from 'firebase';
 import db from '../../../firebase'
 //import { db } from 'firebase'
 import {InputText} from '../../camposFormulario/InputText'
+import {InputImage} from '../../camposFormulario/InputImage'
+
 
 //const dbTasks = firebase.collection('tasks')
 
@@ -30,7 +32,20 @@ export class FormularioAsociaciones extends Component{
 		//var cityRef = db.collection('asociaciones')
 		if(this.props.parametros == null){//hace un nuevo
 			console.log("CREA NUEVO!!!!!!!!!");
-			db.collection("asociaciones").add(this.state.objGuardar)
+			var addMessage = firebase.functions().httpsCallable('saveWithImage');
+			addMessage({recurso: this.state.objGuardar}, {response:""}).then(function(result) {
+			  // Read result of the Cloud Function.
+			  //var sanitizedMessage = result.data.text;
+				console.log("RESULTADO", result);
+			}).catch(function(error) {
+			  // Getting the Error details.
+			  var code = error.code;
+			  var message = error.message;
+			  var details = error.details;
+				console.log("ERROR",error);
+			  // ...
+			});
+			/*db.collection("asociaciones").add(this.state.objGuardar)
 			.then((docRef) => {//.then((user) => {
 			    console.log("ASOCIACION AÑADIDA OK: ", docRef.id);
 					//enviar al Listado
@@ -38,7 +53,7 @@ export class FormularioAsociaciones extends Component{
 			})
 			.catch(function(error) {
 			    console.error("ERROR AL AÑADIR", error);
-			});
+			});*/
 		}else{//hace un update
 			console.log("CREA EDICION!!!!!!!!!");
 			db.collection("asociaciones").doc(this.props.parametros.id).set(this.state.objGuardar, { merge: true })
@@ -60,6 +75,7 @@ export class FormularioAsociaciones extends Component{
 							<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Nombre Asociación"} campo={"nombreAsociacion"} valor={this.props.parametros != null? this.props.parametros.nombreAsociacion : null} maxLength={100}/></li>
 							<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Email"} campo={"email"} valor={this.props.parametros != null? this.props.parametros.email : null}/></li>
 							<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Telefono"} campo={"telefono"} valor={this.props.parametros != null? this.props.parametros.telefono : null}/></li>
+							<li><InputImage onResults={this._retornoCampo}/></li>
 						</ul>
 						<div className="columns">
 						  <div className="column is-half">
