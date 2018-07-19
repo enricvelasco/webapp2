@@ -31,9 +31,9 @@ export class FormularioAsociaciones extends Component{
 		let user = firebase.auth().currentUser;
 		//var cityRef = db.collection('asociaciones')
 		if(this.props.parametros == null){//hace un nuevo
-			console.log("CREA NUEVO!!!!!!!!!");
-			var addMessage = firebase.functions().httpsCallable('saveWithImage');
-			addMessage({recurso: this.state.objGuardar}, {response:""}).then(function(result) {
+			console.log("CREA NUEVO!!!!!!!!!", this.state.objGuardar);
+			var addMessage = firebase.functions().httpsCallable('callFunction');
+			addMessage(this.state.objGuardar).then(function(result) {
 			  // Read result of the Cloud Function.
 			  //var sanitizedMessage = result.data.text;
 				console.log("RESULTADO", result);
