@@ -37,7 +37,7 @@ export class InputImage extends Component{
     console.log("SATE", this.state);
     console.log("FILE", file);
 
-    this.props.onResults("image", file)
+    this.props.onResults("image", e.target.files[0])
   }
 
   render(){
