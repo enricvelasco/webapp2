@@ -35,8 +35,8 @@ export class FormularioAsociaciones extends Component{
 		const storageRef = firebase.storage().ref()
 		//var cityRef = db.collection('asociaciones')
 		if(this.props.parametros == null){//hace un nuevo
-			console.log("CREA NUEVO!!!!!!!!!", this.state.objGuardar.image);
-			const storageRef = firebase.storage().ref('pictures/${this.state.objGuardar.image.name}')
+			console.log("CREA NUEVO!!!!!!!!!", this.state.objGuardar);
+			/*const storageRef = firebase.storage().ref('pictures/${this.state.objGuardar.image.name}')
 			const task = storageRef.put(this.state.objGuardar.image)
 
 			task.on('state_changed', (snapshot) => {
@@ -49,14 +49,15 @@ export class FormularioAsociaciones extends Component{
 				console.log("SE HA SUBIDO EL ARCHIVO");
 			  // Una vez se haya subido el archivo,
 			  // se invoca ésta función
-			})
-			/*db.collection("asociaciones").add(this.state.objGuardar)
+			})*/
+			db.collection("asociaciones").add(this.state.objGuardar)
 			.then((docRef) => {//.then((user) => {
 			    console.log("ASOCIACION AÑADIDA OK: ", docRef.id);
+					this.props.onResults("listado")
 			})
 			.catch(function(error) {
 			    console.error("ERROR AL AÑADIR", error);
-			});*/
+			});
 			/*storageRef.put(this.state.objGuardar.image)
 				.then(snap => {
 					console.log("TERMINA GUARDADO IMAGEN");
@@ -88,7 +89,7 @@ export class FormularioAsociaciones extends Component{
 							<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Nombre Asociación"} campo={"nombreAsociacion"} valor={this.props.parametros != null? this.props.parametros.nombreAsociacion : null} maxLength={100}/></li>
 							<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Email"} campo={"email"} valor={this.props.parametros != null? this.props.parametros.email : null}/></li>
 							<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Telefono"} campo={"telefono"} valor={this.props.parametros != null? this.props.parametros.telefono : null}/></li>
-							<li><InputImage onResults={this._retornoCampo}/></li>
+							<li><InputImage onResults={this._retornoCampo} valor={this.props.parametros != null? this.props.parametros.pathImage : null}/></li>
 						</ul>
 						<div className="columns">
 						  <div className="column is-half">

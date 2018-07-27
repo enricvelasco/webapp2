@@ -1,6 +1,6 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
-const storage = require('@google-cloud/storage')();
+//const storage = require('@google-cloud/storage')();
 
 admin.initializeApp(functions.config().firebase);
 
@@ -8,7 +8,7 @@ const bucket = "source-bucket-name";
 
 const database = admin.database();
 
-var bucket = admin.storage().bucket();
+//var bucket = admin.storage().bucket();
 
 //admin.database() para acceso a realtimeDatabase
 //admin.firestore() para acceso a firestore
@@ -21,11 +21,11 @@ var bucket = admin.storage().bucket();
   return "HOLA ATACA FUNCTION"
 });*/
 
-exports.guardarImagen = functions.https.onCall((data)=>{
+/*exports.guardarImagen = functions.https.onCall((data)=>{
   var imagen = data.image
 
 
-})
+})*/
 
  exports.callFunction = functions.https.onCall((data) => {
    let imagen ={}

@@ -7,7 +7,8 @@ export class InputImage extends Component{
     super(props)
 
     this.state = {
-      file:""
+      file:"",
+      imagePreviewUrl: props.valor
     }
     console.log("CONSTRUCTOR", this.state);
   }
@@ -28,7 +29,7 @@ export class InputImage extends Component{
     reader.onloadend = () => {
       this.setState({
         file: file,
-        imagePreviewUrl: reader.result
+        //imagePreviewUrl: reader.result
       });
     }
 
@@ -37,7 +38,33 @@ export class InputImage extends Component{
     console.log("SATE", this.state);
     console.log("FILE", file);
 
-    this.props.onResults("image", e.target.files[0])
+    const storageRef = firebase.storage().ref('pictures/'+URL.createObjectURL(file))
+    const task = storageRef.put(file)
+
+    task.on('state_changed', (snapshot) => {
+      // Se lanza durante el progreso de subida
+      console.log("SUBIENDO");
+    }, (error) => {
+      // Si ha ocurrido un error aquí lo tratamos
+      console.log("ERROR", error);
+    }, (snapshot) => {
+      console.log("SE HA SUBIDO EL ARCHIVO", snapshot);
+      // Una vez se haya subido el archivo,
+      // se invoca ésta función
+      task.snapshot.ref.getDownloadURL().then((downloadURL) =>{
+        console.log('File available at', downloadURL);
+
+        this.setState({
+          //file: file,
+          imagePreviewUrl: downloadURL
+        });
+
+        this.props.onResults("pathImage", downloadURL)
+      });
+    })
+
+
+
   }
 
   render(){
