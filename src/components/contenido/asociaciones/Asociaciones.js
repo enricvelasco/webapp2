@@ -33,7 +33,7 @@ export class Asociaciones extends Component{
 		console.log("ENTRA A RENDER PROPS::", this.props)
     switch(this.state.estado) {
       case "listado":
-			
+
 				/*this.state.cargaDatos = false;
 				let resp
 				if(this.state.cargaDatos){

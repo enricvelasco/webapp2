@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+ import React, { Component } from 'react';
 import firebase from 'firebase';
 import {Grid} from '../Grid'
 import { Link } from 'react-router-dom';
@@ -45,51 +45,28 @@ export class ListadoAsociaciones extends Component{
 
 	componentWillUpdate(props, state){
 		console.log("COMPONENT WILL UPDATE");
-		/*if(esUpdate){
-			this._cargarDatos()
-		}else{
-			esUpdate = true
-		*/
-		//esUpdate = true
-		//this._cargarDatos()
+
 	}
 
 	componentDidUpdate(props, state){
-		console.log("COMPONENT DID UPDATE");
+		console.log("COMPONENT DID UPDATE 1");
 		//this._cargarDatos()
 	}
 
 	componentWillReciveProps(props){
-		console.log("COMPONENT WILL RECIVE PROPS");
+		console.log("COMPONENT WILL RECIVE PROPS 2");
 	}
 
 	componentWillMount=()=>{
-		console.log("COMPONENT DID MOUNT");
-		//this._cargarDatos()
-		/*let rows = [];
-		db.collection("asociaciones").get().then((querySnapshot) => {
-		    querySnapshot.forEach(function(doc) {
-		        // doc.data() is never undefined for query doc snapshots
-						let registro = {}
-
-						registro.id = doc.id
-						registro = doc.data()
-						//registro.valorEdicion = doc.data().codigo
-						registro.codigoLink = doc
-						rows.push(registro)
-		        console.log("-----",doc.id, " => ", doc.data());
-		    });
-				this._rows = rows;
-				console.log("LISTADO", rows);
-				this.cargarColumnas()
-				this.setState({loading: false
-                    })
-		});*/
+		console.log("COMPONENT DID MOUNT 3");
 	}
 
 	_cargarDatos(){
-		//console.log("COMPONENT DID MOUNT");
-		this.state.loading = true
+		console.log("CARGAR DATOS");
+		/*this.setState({
+			loading:true
+		})*/
+		//this.state.loading = true
 		let rows = [];
 		db.collection("asociaciones").get().then((querySnapshot) => {
 		    querySnapshot.forEach(function(doc) {
@@ -114,7 +91,9 @@ export class ListadoAsociaciones extends Component{
 
 	_cargarFormulario=(e, estado, registro)=>{
     console.log("SELECCIONA NUEVO", estado);
-		this.state.loading = true;
+		this.setState({loading: true
+								})
+		//this.state.loading = true;
 		this.props.onResults(estado, null)
   }
 
@@ -131,25 +110,29 @@ export class ListadoAsociaciones extends Component{
 
 	_eliminarCampos =(e)=>{
 		console.log("ELIMINAR CAMPOS", this.state.camposGridSeleccionados);
+		this.setState({
+			loading:true
+		})
 		/*let arrDelOK = []
-		let arrDelErr = []
+		let arrDelErr = []*/
 			db.collection("asociaciones").doc(this.state.camposGridSeleccionados[0].codigoLink.id).delete()
 			.then(() => {
 					console.log("ELIMINADO OK");
-					this.state = {
+					/*this.state = {
 			      loading:true
-			    }
+			    }*/
 					this._cargarDatos()
 			})
 			.catch(function(error) {
 			    console.error("ERROR AL AÑADIR", error, "en campo");
 					this.props.onResults("listado")
 					//arrDelErr.push(campo)
-			});*/
-			var addMessage = firebase.functions().httpsCallable('callFunction');
-			addMessage({text: 'hola'}).then(function(result) {
+			});
+			/*var addMessage = firebase.functions().httpsCallable('callFunction');
+			addMessage({text: 'hola'}).then((result) =>{
 			  // Read result of the Cloud Function.
 			  //var sanitizedMessage = result.data.text;
+				this._cargarDatos()
 				console.log("RESULTADO", result);
 			}).catch(function(error) {
 			  // Getting the Error details.
@@ -158,20 +141,8 @@ export class ListadoAsociaciones extends Component{
 			  var details = error.details;
 				console.log("ERROR");
 			  // ...
-			});
+			});*/
 	}
-
-	/*render(){
-    return(
-      <div>
-        {this.state.loading?
-          <p>cargando...</p>
-          :
-          this._asignarEstadoPantalla(this.state.estadoPantalla)
-        }
-      </div>
-    )
-  }*/
 
 	render(){
 		console.log("RENDER");
