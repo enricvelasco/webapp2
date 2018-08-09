@@ -5,6 +5,7 @@ import db from '../../../firebase'
 //import { db } from 'firebase'
 import {InputText} from '../../camposFormulario/InputText'
 import {InputImage} from '../../camposFormulario/InputImage'
+import {PhotoEditor} from '../../componentesEspeciales/PhotoEditor'
 
 /*firebase.initializeApp(config);
 const storageRef = firebase.storage().ref()*/
@@ -36,20 +37,6 @@ export class FormularioAsociaciones extends Component{
 		//var cityRef = db.collection('asociaciones')
 		if(this.props.parametros == null){//hace un nuevo
 			console.log("CREA NUEVO!!!!!!!!!", this.state.objGuardar);
-			/*const storageRef = firebase.storage().ref('pictures/${this.state.objGuardar.image.name}')
-			const task = storageRef.put(this.state.objGuardar.image)
-
-			task.on('state_changed', (snapshot) => {
-			  // Se lanza durante el progreso de subida
-				console.log("SUBIENDO");
-			}, (error) => {
-			  // Si ha ocurrido un error aquí lo tratamos
-				console.log("ERROR", error);
-			}, () => {
-				console.log("SE HA SUBIDO EL ARCHIVO");
-			  // Una vez se haya subido el archivo,
-			  // se invoca ésta función
-			})*/
 			db.collection("asociaciones").add(this.state.objGuardar)
 			.then((docRef) => {//.then((user) => {
 			    console.log("ASOCIACION AÑADIDA OK: ", docRef.id);
@@ -58,16 +45,6 @@ export class FormularioAsociaciones extends Component{
 			.catch(function(error) {
 			    console.error("ERROR AL AÑADIR", error);
 			});
-			/*storageRef.put(this.state.objGuardar.image)
-				.then(snap => {
-					console.log("TERMINA GUARDADO IMAGEN");
-					//this.setState({uploading: false})
-					// the loading percent logic here?
-					// how do i keep tabs on the percent?
-				})
-				.catch(function(error) {
-						console.error("ERROR AL AÑADIR FOTO", error);
-				});*/
 		}else{//hace un update
 			console.log("CREA EDICION!!!!!!!!!");
 			db.collection("asociaciones").doc(this.props.parametros.id).set(this.state.objGuardar, { merge: true })
@@ -90,6 +67,7 @@ export class FormularioAsociaciones extends Component{
 							<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Email"} campo={"email"} valor={this.props.parametros != null? this.props.parametros.email : null}/></li>
 							<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Telefono"} campo={"telefono"} valor={this.props.parametros != null? this.props.parametros.telefono : null}/></li>
 							<li><InputImage onResults={this._retornoCampo} valor={this.props.parametros != null? this.props.parametros.pathImage : null}/></li>
+
 						</ul>
 						<div className="columns">
 						  <div className="column is-half">

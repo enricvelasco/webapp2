@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
+import {PhotoEditor} from '../componentesEspeciales/PhotoEditor'
 
 export class InputImage extends Component{
 
@@ -29,7 +30,7 @@ export class InputImage extends Component{
     reader.onloadend = () => {
       this.setState({
         file: file,
-        //imagePreviewUrl: reader.result
+        imagePreviewUrl: reader.result
       });
     }
 
@@ -38,8 +39,41 @@ export class InputImage extends Component{
     console.log("SATE", this.state);
     console.log("FILE", file);
 
-    const storageRef = firebase.storage().ref('pictures/'+URL.createObjectURL(file))
-    const task = storageRef.put(file)
+    /*const storageRef = firebase.storage().ref('pictures/'+URL.createObjectURL(file))
+    const task = storageRef.put(file)*/
+
+    /*task.on('state_changed', (snapshot) => {
+      // Se lanza durante el progreso de subida
+      console.log("SUBIENDO");
+    }, (error) => {
+      // Si ha ocurrido un error aquí lo tratamos
+      console.log("ERROR", error);
+    }, (snapshot) => {
+      console.log("SE HA SUBIDO EL ARCHIVO", snapshot);
+      // Una vez se haya subido el archivo,
+      // se invoca ésta función
+      task.snapshot.ref.getDownloadURL().then((downloadURL) =>{
+        console.log('File available at', downloadURL);
+
+        this.setState({
+          file: file,
+          imagePreviewUrl: downloadURL
+        });
+
+        this.props.onResults("fileImage", file)
+      });
+    })*/
+
+
+
+  }
+
+  _imagenCentrada = (resp) =>{
+    console.log("RESPUESTA IMAGEN CENTRADA",resp);
+    //const storageRef = firebase.storage().ref('pictures/imagenPrueba.jpeg')
+    const storageRef = firebase.storage().ref('pictures/'+URL.createObjectURL(resp))
+    //const storageRef = firebase.storage().ref('pictures/'+resp.getImageScaledToCanvas().toDataURL())
+    const task = storageRef.put(resp)
 
     task.on('state_changed', (snapshot) => {
       // Se lanza durante el progreso de subida
@@ -54,26 +88,25 @@ export class InputImage extends Component{
       task.snapshot.ref.getDownloadURL().then((downloadURL) =>{
         console.log('File available at', downloadURL);
 
-        this.setState({
-          //file: file,
+        /*this.setState({
+          file: file,
           imagePreviewUrl: downloadURL
-        });
+        });*/
 
         this.props.onResults("pathImage", downloadURL)
       });
     })
-
-
-
   }
 
   render(){
     let {imagePreviewUrl} = this.state;
     let $imagePreview = null;
     if (imagePreviewUrl) {
-      $imagePreview = (<figure class="image is-128x128">
-        <img src={imagePreviewUrl}/>
-      </figure>);
+      $imagePreview = (//<figure class="image is-128x128">
+        //<img src={imagePreviewUrl}/>
+        <PhotoEditor urlImage={imagePreviewUrl} onResults={this._imagenCentrada}/>
+      //</figure>
+    );
     } else {
       $imagePreview = (<figure class="image is-128x128">
         <img src="https://bulma.io/images/placeholders/128x128.png"/>
