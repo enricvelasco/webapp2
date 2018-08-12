@@ -4,13 +4,6 @@ import firebase from 'firebase';
 export class InputText extends Component{
   constructor(props){
     super(props)
-
-    /*if(this.props.valor == null){
-      this.state.modoFormulario = 'nuevo'
-    }else{
-      this.state.modoFormulario = 'edicion'
-    }*/
-
     this.campo = this.props.valor
 
     if(props.obligatorio && this.campo==null){
@@ -32,16 +25,10 @@ export class InputText extends Component{
   }
 
   componentDidMount() {
-    //console.log("COMPONENT DID MOUNT PROPS", this.props);
     console.log("COMPONENT DID MOUNT STATE", this.state);
-    //this.campo = this.props.valor
     if(this.props.obligatorio != undefined && this.state.hayError/*&& (this.campo == "" || this.campo == null)*/){
       this.state.errorObligatorio = true
       this.state.errorMessage = "campo obligatorio"
-      /*this.setState({
-        errorObligatorio:true,
-        errorMessage:"campo obligatorio"
-      })*/
     }
 
     if(this.props.minLength != undefined){

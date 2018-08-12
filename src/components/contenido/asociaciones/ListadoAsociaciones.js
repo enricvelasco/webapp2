@@ -3,40 +3,29 @@ import firebase from 'firebase';
 import {Grid} from '../Grid'
 import { Link } from 'react-router-dom';
 import db from '../../../firebase'
-//import firebase from 'firebase';
 import {Loading} from '../../Loading'
 import {CampoLink} from '../../componentesGrid/CampoLink'
 
-//const CampoEdicion = <CampoLink registro={registro}>
 var esUpdate = false
 export class ListadoAsociaciones extends Component{
-	//state = {cargandoDatos:true}
 	constructor(props, context) {
     super(props, context);
 		this.state = {
       loading:true
     }
-    /*this.createRows();*/
 		this._cargarDatos()
 		console.log("CONSTRUCTOS ASOCIACIONES");
   }
 
 	cargarColumnas(){
 		this._columns = [
-      //{ key: 'nombreAsociacion', name: 'Nombre', formatter: <CampoLink/> },
-			//{key:'valorEdicion', name:'Edicion', formatter: <CampoLink registro={registro}>},
-			//{key: 'id', name:'#'},
 			{ key: 'codigoLink', name: 'Codigo', formatter: <CampoLink registro={this.value} onResults={this._respuestaCampoLink}/>},
 			{ key: 'nombreAsociacion', name: 'Nombre' },
       { key: 'email', name: 'Email' },
       { key: 'telefono', name: 'Telefono' } ];
-
-
 	}
 
 	_respuestaCampoLink=(e)=>{
-		console.log("REPUESTA CAMPO LINK", e);
-		//this._cargarFormulario(null, 'nuevo', e);
 		this.props.onResults('nuevo', e)
 	}
 	clickEnCasilla(){
@@ -63,10 +52,6 @@ export class ListadoAsociaciones extends Component{
 
 	_cargarDatos(){
 		console.log("CARGAR DATOS");
-		/*this.setState({
-			loading:true
-		})*/
-		//this.state.loading = true
 		let rows = [];
 		db.collection("asociaciones").get().then((querySnapshot) => {
 		    querySnapshot.forEach(function(doc) {
@@ -104,7 +89,6 @@ export class ListadoAsociaciones extends Component{
 	_asignarEstadoPantalla = (estado)=>{
 		return(
         <Grid columnas={this._columns} rows={this._rows} onResults={this._retornoSeleccionesGrid}/>
-				//<GridTest/>
       )
 	}
 
@@ -113,35 +97,15 @@ export class ListadoAsociaciones extends Component{
 		this.setState({
 			loading:true
 		})
-		/*let arrDelOK = []
-		let arrDelErr = []*/
 			db.collection("asociaciones").doc(this.state.camposGridSeleccionados[0].codigoLink.id).delete()
 			.then(() => {
 					console.log("ELIMINADO OK");
-					/*this.state = {
-			      loading:true
-			    }*/
 					this._cargarDatos()
 			})
 			.catch(function(error) {
 			    console.error("ERROR AL AÑADIR", error, "en campo");
 					this.props.onResults("listado")
-					//arrDelErr.push(campo)
 			});
-			/*var addMessage = firebase.functions().httpsCallable('callFunction');
-			addMessage({text: 'hola'}).then((result) =>{
-			  // Read result of the Cloud Function.
-			  //var sanitizedMessage = result.data.text;
-				this._cargarDatos()
-				console.log("RESULTADO", result);
-			}).catch(function(error) {
-			  // Getting the Error details.
-			  var code = error.code;
-			  var message = error.message;
-			  var details = error.details;
-				console.log("ERROR");
-			  // ...
-			});*/
 	}
 
 	render(){

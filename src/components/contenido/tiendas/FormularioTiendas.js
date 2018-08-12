@@ -5,9 +5,11 @@ import db from '../../../firebase'
 //import { db } from 'firebase'
 import {InputText} from '../../camposFormulario/InputText'
 import {InputImage} from '../../camposFormulario/InputImage'
+import {Select} from '../../camposFormulario/Select'
 import {PhotoEditor} from '../../componentesEspeciales/PhotoEditor'
+import {Direccion} from '../../camposFormulario/Direccion'
 
-export class FormularioAsociaciones extends Component{
+export class FormularioTiendas extends Component{
 	constructor(props) {
     super(props);
     this.state = {objGuardar:{}};
@@ -22,9 +24,8 @@ export class FormularioAsociaciones extends Component{
 		let user = firebase.auth().currentUser;
 
 		const storageRef = firebase.storage().ref()
-		//var cityRef = db.collection('asociaciones')
 		if(this.props.parametros == null){//hace un nuevo
-			db.collection("asociaciones").add(this.state.objGuardar)
+			db.collection("tiendas").add(this.state.objGuardar)
 			.then((docRef) => {//.then((user) => {
 			    console.log("ASOCIACION AÑADIDA OK: ", docRef.id);
 					this.props.onResults("listado")
@@ -34,7 +35,7 @@ export class FormularioAsociaciones extends Component{
 			});
 		}else{//hace un update
 			console.log("CREA EDICION!!!!!!!!!");
-			db.collection("asociaciones").doc(this.props.parametros.id).set(this.state.objGuardar, { merge: true })
+			db.collection("tiendas").doc(this.props.parametros.id).set(this.state.objGuardar, { merge: true })
 			.then(()=> {
 					this.props.onResults("listado")
 			    console.log("Document successfully written!");
@@ -49,12 +50,13 @@ export class FormularioAsociaciones extends Component{
     return(
 	        <div className="box margenes-box-listado">
 						<ul>
-							<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Código Asociación"} campo={"codigo"} valor={this.props.parametros != null? this.props.parametros.codigo : null} maxLength={5}/></li>
-							<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Nombre Asociación"} campo={"nombreAsociacion"} valor={this.props.parametros != null? this.props.parametros.nombreAsociacion : null} maxLength={100}/></li>
+							<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Código Tienda"} campo={"codigo"} valor={this.props.parametros != null? this.props.parametros.codigo : null} maxLength={5}/></li>
+							<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Nombre Tienda"} campo={"nombreTienda"} valor={this.props.parametros != null? this.props.parametros.nombreAsociacion : null} maxLength={100}/></li>
 							<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Email"} campo={"email"} valor={this.props.parametros != null? this.props.parametros.email : null}/></li>
 							<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Telefono"} campo={"telefono"} valor={this.props.parametros != null? this.props.parametros.telefono : null}/></li>
-							<li><InputImage onResults={this._retornoCampo} valor={this.props.parametros != null? this.props.parametros.pathImage : null}/></li>
-
+              <li><Select onResults={this._retornoCampo} obligatorio={false} tituloCampo={"Asociación"} campo={"idAsociacion"} url={"asociaciones"} valor={this.props.parametros != null? this.props.parametros.idAsociacion : null}/></li>
+              <li><Direccion onResults={this._retornoCampo} valor={this.props.parametros != null? this.props.parametros.direccion : null}/></li>
+              <li><InputImage onResults={this._retornoCampo} valor={this.props.parametros != null? this.props.parametros.pathImage : null}/></li>
 						</ul>
 						<div className="columns">
 						  <div className="column is-half">

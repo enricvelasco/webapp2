@@ -1,19 +1,17 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
 import {Grid} from '../Grid'
-import {ListadoAsociaciones} from './ListadoAsociaciones'
-import {FormularioAsociaciones} from './FormularioAsociaciones'
+import {ListadoTiendas} from './ListadoTiendas'
+import {FormularioTiendas} from './FormularioTiendas'
 import {Loading} from '../../Loading'
 
-export class Asociaciones extends Component{
+export class Tiendas extends Component{
 	constructor(props){
     super(props)
 		this.state = {
       estado:props.estado
     }
 		this._cargaInicial()
-    console.log("CONSTRUCTOR PROPS ASOCIACIONES", props);
-		console.log("CONSTRUCTOR STATE ASOCIACIONES----", this.state);
   }
 
 	_retornoEstado = (estado, params) =>{
@@ -31,10 +29,10 @@ export class Asociaciones extends Component{
 		console.log("ENTRA A RENDER PROPS::", this.props)
     switch(this.state.estado) {
       case "listado":
-				return <ListadoAsociaciones onResults={this._retornoEstado}/>
+				return <ListadoTiendas onResults={this._retornoEstado}/>
       break;
       case "nuevo":
-        return <FormularioAsociaciones parametros={this.state.parametros != null? this.state.parametros : null} onResults={this._retornoEstado}/>
+        return <FormularioTiendas parametros={this.state.parametros != null? this.state.parametros : null} onResults={this._retornoEstado}/>
       break;
     }
   }

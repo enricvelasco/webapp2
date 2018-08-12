@@ -9,7 +9,7 @@ import {Login} from './components/login/Login'
 import {MenuLateral} from './components/menuLateral/MenuLateral'
 import {Listado} from './components/contenido/Listado'
 import {ListadoEstadisticas} from './components/contenido/ListadoEstadisticas'
-import {ListadoTiendas} from './components/contenido/tiendas/ListadoTiendas'
+import {Tiendas} from './components/contenido/tiendas/Tiendas'
 //import {ListadoAsociaciones} from './components/contenido/asociaciones/ListadoAsociaciones
 import {Asociaciones} from './components/contenido/asociaciones/Asociaciones'
 
@@ -54,7 +54,7 @@ class App extends Component {
         return <Asociaciones user={this.state.user} urlRecurso={"asociaciones"} estado={"listado"}/>
       break;
       case "tiendas":
-        return <ListadoTiendas user={this.state.user} urlRecurso={"tiendas"}/>
+        return <Tiendas user={this.state.user} urlRecurso={"tiendas"} estado={"listado"}/>
       break;
       case "productos":
       break;
