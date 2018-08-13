@@ -33,7 +33,7 @@ export class MenuLateral extends Component{
               <a>Tiendas</a>
                 <ul>
                 <li><Link to='/tiendas' onClick={((e) => this._selectItemMenu(e, 'tiendas'))}>Locales</Link></li>
-                <li><Link to='/tiendasTipos' onClick={((e) => this._selectItemMenu(e, 'tiendasTipos'))}>Tipos Local (TO DO)</Link></li>
+                <li><Link to='/categoriasLocal' onClick={((e) => this._selectItemMenu(e, 'categoriasLocal'))}>Categorias Local</Link></li>
               </ul>
             </li>
             <li>
