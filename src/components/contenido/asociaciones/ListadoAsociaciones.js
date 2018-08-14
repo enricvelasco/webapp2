@@ -20,7 +20,7 @@ export class ListadoAsociaciones extends Component{
 	cargarColumnas(){
 		this._columns = [
 			{ key: 'codigoLink', name: 'Codigo', formatter: <CampoLink registro={this.value} onResults={this._respuestaCampoLink}/>},
-			{ key: 'nombreAsociacion', name: 'Nombre' },
+			{ key: 'nombre', name: 'Nombre' },
       { key: 'email', name: 'Email' },
       { key: 'telefono', name: 'Telefono' } ];
 	}

@@ -6,6 +6,7 @@ import db from '../../../firebase'
 import {InputText} from '../../camposFormulario/InputText'
 import {InputImage} from '../../camposFormulario/InputImage'
 import {PhotoEditor} from '../../componentesEspeciales/PhotoEditor'
+import {Select} from '../../camposFormulario/Select'
 
 export class FormularioCategoriasLocal extends Component{
 	constructor(props) {
@@ -48,10 +49,12 @@ export class FormularioCategoriasLocal extends Component{
     return(
 	        <div className="box margenes-box-listado">
 						<ul>
-							<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Código Asociación"} campo={"codigo"} valor={this.props.parametros != null? this.props.parametros.codigo : null} maxLength={5}/></li>
+							<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Código"} campo={"codigo"} valor={this.props.parametros != null? this.props.parametros.codigo : null} maxLength={5}/></li>
 							<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Nombre Categoria"} campo={"nombre"} valor={this.props.parametros != null? this.props.parametros.nombre : null} maxLength={100}/></li>
 							<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Observaciones"} campo={"observaciones"} valor={this.props.parametros != null? this.props.parametros.observaciones : null}/></li>
+							<li><Select onResults={this._retornoCampo} obligatorio={false} tituloCampo={"Categoría Padre"} campo={"idCategoriaLocalPadre"} url={"categoriasLocal"} filtro={["idCategoriaLocalPadre","==",null]} camposMostrar={["codigo", "nombre"]} valor={this.props.parametros != null? this.props.parametros.idAsociacion : null}/></li>
 							<li><InputImage onResults={this._retornoCampo} valor={this.props.parametros != null? this.props.parametros.pathImage : null}/></li>
+
 						</ul>
 						<div className="columns">
 						  <div className="column is-half">
