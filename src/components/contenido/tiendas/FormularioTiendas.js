@@ -9,13 +9,28 @@ import {Select} from '../../camposFormulario/Select'
 import {PhotoEditor} from '../../componentesEspeciales/PhotoEditor'
 import {Direccion} from '../../camposFormulario/Direccion'
 import {CamposSeleccionables} from '../../componentesEspeciales/CamposSeleccionables'
+import {Loading} from '../../Loading'
 
 export class FormularioTiendas extends Component{
 	constructor(props) {
     super(props);
-    this.state = {objGuardar:{}, tabSelect:0};
-		//this._camposTab()
+    this.state = {objGuardar:{}, tabSelect:0, camposFormulario:null};
+		//this._camposTab(this.state.tabSelect)
+		//this._changeActiveTab(0)
+		this._cargarCamposInicial()
   }
+
+	_cargarCamposInicial=()=>{
+		this.state.camposFormulario=(<ul>
+												<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Código Tienda"} campo={"codigo"} valor={this.props.parametros != null? this.props.parametros.codigo : null} maxLength={5}/></li>
+												<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Nombre Tienda"} campo={"nombre"} valor={this.props.parametros != null? this.props.parametros.nombreAsociacion : null} maxLength={100}/></li>
+												<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Email"} campo={"email"} valor={this.props.parametros != null? this.props.parametros.email : null}/></li>
+												<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Telefono"} campo={"telefono"} valor={this.props.parametros != null? this.props.parametros.telefono : null}/></li>
+												<li><Select onResults={this._retornoCampo} obligatorio={false} tituloCampo={"Asociación"} campo={"idAsociacion"} url={"asociaciones"} valor={this.props.parametros != null? this.props.parametros.idAsociacion : null}/></li>
+												<li><InputImage onResults={this._retornoCampo} valor={this.props.parametros != null? this.props.parametros.pathImage : null}/></li>
+												</ul>)
+	}
+
 	_retornoCampo = (campo, valor) =>{
 		this.state.objGuardar[campo] = valor
   }
@@ -48,11 +63,53 @@ export class FormularioTiendas extends Component{
 		}
 	}
 
-	_camposTab = () =>{
-		var camposMontar;
-		//console.log("ENTRA EN CAMPO TAB FUNC", this.state.tabSelect);
-		if(this.state.tabSelect == 0){
-			camposMontar = (
+	_montarCamposSeleccionables() {
+		console.log("ENTRA A FUNCION PROMESA");
+			return new Promise((resolve, reject) => {
+	    setTimeout(function() {
+	      var didSucceed = Math.random() >= 0.5;
+	      didSucceed ? resolve(new Date()) : reject('Error');
+	    }, 2000);
+	  })
+		//var promise = new Promise()
+		/*db.collection("tiendas").get().then((querySnapshot) => {
+				querySnapshot.forEach(function(doc) {
+						// doc.data() is never undefined for query doc snapshots
+						let registro = {}
+
+						registro.id = doc.id
+						registro = doc.data()
+						console.log("-----",doc.id, " => ", doc.data());
+				});
+				console.log("TERMINA PROMESA");
+				//resolve("hola")
+				promise.resolve("HOLA")
+		});*/
+		//return promise
+	  /*return new Promise((resolve, reject) => {
+			db.collection("tiendas").get().then((querySnapshot) => {
+	        querySnapshot.forEach(function(doc) {
+	            // doc.data() is never undefined for query doc snapshots
+	            let registro = {}
+
+	            registro.id = doc.id
+	            registro = doc.data()
+	            console.log("-----",doc.id, " => ", doc.data());
+	        });
+					console.log("TERMINA PROMESA");
+					resolve("hola")
+	    });
+	  })*/
+	}
+
+	//_agruparCate
+
+	_camposTab = (select) =>{
+		//var camposMontar;
+		console.log("ENTRA EN CAMPO TAB FUNC", this.state);
+		if(select == 0){
+			console.log("CAMPOS TAB 0");
+			/*camposMontar = (
 			<ul>
 			<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Código Tienda"} campo={"codigo"} valor={this.props.parametros != null? this.props.parametros.codigo : null} maxLength={5}/></li>
 			<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Nombre Tienda"} campo={"nombre"} valor={this.props.parametros != null? this.props.parametros.nombreAsociacion : null} maxLength={100}/></li>
@@ -60,18 +117,62 @@ export class FormularioTiendas extends Component{
 			<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Telefono"} campo={"telefono"} valor={this.props.parametros != null? this.props.parametros.telefono : null}/></li>
 			<li><Select onResults={this._retornoCampo} obligatorio={false} tituloCampo={"Asociación"} campo={"idAsociacion"} url={"asociaciones"} valor={this.props.parametros != null? this.props.parametros.idAsociacion : null}/></li>
 			<li><InputImage onResults={this._retornoCampo} valor={this.props.parametros != null? this.props.parametros.pathImage : null}/></li>
-			</ul>)
-		}else if(this.state.tabSelect == 1){
-			camposMontar = (
+			</ul>)*/
+			//this.setState({camposFormulario:"HOLA"})
+			this.setState({
+				camposFormulario:(<ul>
+													<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Código Tienda"} campo={"codigo"} valor={this.props.parametros != null? this.props.parametros.codigo : null} maxLength={5}/></li>
+													<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Nombre Tienda"} campo={"nombre"} valor={this.props.parametros != null? this.props.parametros.nombreAsociacion : null} maxLength={100}/></li>
+													<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Email"} campo={"email"} valor={this.props.parametros != null? this.props.parametros.email : null}/></li>
+													<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Telefono"} campo={"telefono"} valor={this.props.parametros != null? this.props.parametros.telefono : null}/></li>
+													<li><Select onResults={this._retornoCampo} obligatorio={false} tituloCampo={"Asociación"} campo={"idAsociacion"} url={"asociaciones"} valor={this.props.parametros != null? this.props.parametros.idAsociacion : null}/></li>
+													<li><InputImage onResults={this._retornoCampo} valor={this.props.parametros != null? this.props.parametros.pathImage : null}/></li>
+													</ul>)
+			})
+			console.log("TERMINA TAB 0", this.state);
+		}else if(select == 1){
+			console.log("CAMPOS TAB 1");
+			/*camposMontar = (
 			<ul>
 			<li><Direccion onResults={this._retornoCampo} valor={this.props.parametros != null? this.props.parametros.direccion : null}/></li>
-			</ul>)
-		}else if(this.state.tabSelect == 2){
-			camposMontar=(<CamposSeleccionables urlCampos="categoriasLocal"/>)
+			</ul>)*/
+			this.setState({
+				camposFormulario:(
+													<ul>
+													<li><Direccion onResults={this._retornoCampo} valor={this.props.parametros != null? this.props.parametros.direccion : null}/></li>
+													</ul>)
+			})
+			console.log("TERMINA TAB 1", this.state);
+		}else if(select == 2){
+			console.log("CAMPOS TAB 2");
+			//this.setState({camposFormulario:null})
+			/*db.collection("categoriasLocal").get().then((querySnapshot) => {
+	        querySnapshot.forEach((doc)=> {
+	            // doc.data() is never undefined for query doc snapshots
+	            let registro = {}
 
+	            registro.id = doc.id
+	            registro = doc.data()
+	            console.log("-----",doc.id, " => ", doc.data());
+	        });
+					console.log("TERMINA PROMESA");
+					resolve("hola")
+	    });*/
+			this.setState({camposFormulario:(<CamposSeleccionables urlCampos="categoriasLocal" campoRelacion="idCategoriaPadre"/>)})
+
+			/*camposMontar=this._montarCamposSeleccionables()
+		  .then(currentTime => this._montarCamposSeleccionables())
+		  .then(currentTime => {
+		    console.log('The current time is: ' + currentTime);
+		    return true;
+		  })
+		  .catch(err => console.log('There was an error:' + err))
+
+
+			console.log("RESPUESTA PROMESA", camposMontar);*/
 			//return camposMontar
 		}
-		return camposMontar
+		//return camposMontar
 		/*return(
 		<ul>
 		<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Código Tienda"} campo={"codigo"} valor={this.props.parametros != null? this.props.parametros.codigo : null} maxLength={5}/></li>
@@ -88,7 +189,7 @@ export class FormularioTiendas extends Component{
 		this.setState({
 			tabSelect:select
 		})
-		//this._camposTab()
+		this._camposTab(select)
 	}
 	_isActive = (select) =>{
 		console.log("IS ACTIVE", select);
@@ -109,7 +210,11 @@ export class FormularioTiendas extends Component{
 						<li className={this._isActive(2)} onClick={() => this._changeActiveTab(2)}><a>Categorías Asignadas</a></li>
 					</ul>
 				</div>
-				{this._camposTab()}
+				{this.state.camposFormulario==null?
+					<Loading/>
+					:
+					this.state.camposFormulario
+				}
 				<div className="columns">
 					<div className="column is-half">
 						<button className="button is-primary boton-save" onClick={

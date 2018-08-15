@@ -10,29 +10,48 @@ export class CamposSeleccionables extends Component{
     this.state={
       loading:true
     }
+		console.log("CONSTRUCTR CAMPOS SELECCIONABLES");
     this._cargarDatos();
   }
+
+	_agruparPorPadre=()=>{
+
+	}
 
   _cargarDatos=()=>{
     console.log("CARGAR DATOS", this.props.urlCampos);
     let rows = [];
     db.collection(this.props.urlCampos).get().then((querySnapshot) => {
-        querySnapshot.forEach(function(doc) {
+			var camposPadre=[]
+				querySnapshot.forEach((doc) =>{
+
             // doc.data() is never undefined for query doc snapshots
-            let registro = {}
+            var registro = {}
 
             registro.id = doc.id
             registro = doc.data()
-            //registro.valorEdicion = doc.data().codigo
-            registro.codigoLink = doc
-            rows.push(registro)
-            console.log("-----",doc.id, " => ", doc.data());
+						//registro.children=[]
+						console.log("LOOP REGISTRO", doc.data());
+						//console.log("CAMPO CONDICION", this.Z);
+            //console.log("-----",doc.id, " => ", doc.data());*/
+						if(doc.data()[this.props.campoRelacion] == null){
+							console.log("ES PADRE", registro.nombre);
+							querySnapshot.forEach((doc)=> {
+								let registroHijo = {}
+		            registroHijo.id = doc.id
+		            registroHijo = doc.data()
+								if(registroHijo[this.props.campoRelacion]==registro.id){
+									registro.children.push(registroHijo)
+								}
+							})
+							camposPadre.push(registro)
+						}
+						//this._agruparPorPadre()
         });
-        this._rows = rows;
-        console.log("LISTADO", rows);
-        this.cargarColumnas()
-        this.setState({loading: false
-                    })
+				console.log("TERMINA CALCULOS", camposPadre);
+				this.setState({loading:false})
+				this._rows = camposPadre
+				this.cargarColumnas()
     });
   }
   cargarColumnas(){
