@@ -68,7 +68,7 @@ export class Select extends Component{
         querySnapshot.forEach((doc) =>{
           console.log("LOOP CONSULTA", doc.id);
           console.log("LOOP CONSULTA DATA", doc.data());
-          console.log("CAMPO 1", this.props.camposMostrar[1]);
+          console.log("CAMPO 1", this.props);
           let resp = doc.data()
           let obj = {}
           //let str="element_"+i

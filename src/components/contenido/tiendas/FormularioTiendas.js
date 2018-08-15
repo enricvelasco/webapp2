@@ -26,7 +26,7 @@ export class FormularioTiendas extends Component{
 												<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Nombre Tienda"} campo={"nombre"} valor={this.props.parametros != null? this.props.parametros.nombreAsociacion : null} maxLength={100}/></li>
 												<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Email"} campo={"email"} valor={this.props.parametros != null? this.props.parametros.email : null}/></li>
 												<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Telefono"} campo={"telefono"} valor={this.props.parametros != null? this.props.parametros.telefono : null}/></li>
-												<li><Select onResults={this._retornoCampo} obligatorio={false} tituloCampo={"Asociación"} campo={"idAsociacion"} url={"asociaciones"} valor={this.props.parametros != null? this.props.parametros.idAsociacion : null}/></li>
+												<li><Select onResults={this._retornoCampo} obligatorio={false} tituloCampo={"Asociación"} campo={"idAsociacion"} url={"asociaciones"} camposMostrar={["codigo", "nombre"]} valor={this.props.parametros != null? this.props.parametros.idAsociacion : null}/></li>
 												<li><InputImage onResults={this._retornoCampo} valor={this.props.parametros != null? this.props.parametros.pathImage : null}/></li>
 												</ul>)
 	}
@@ -125,7 +125,7 @@ export class FormularioTiendas extends Component{
 													<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Nombre Tienda"} campo={"nombre"} valor={this.props.parametros != null? this.props.parametros.nombreAsociacion : null} maxLength={100}/></li>
 													<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Email"} campo={"email"} valor={this.props.parametros != null? this.props.parametros.email : null}/></li>
 													<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Telefono"} campo={"telefono"} valor={this.props.parametros != null? this.props.parametros.telefono : null}/></li>
-													<li><Select onResults={this._retornoCampo} obligatorio={false} tituloCampo={"Asociación"} campo={"idAsociacion"} url={"asociaciones"} valor={this.props.parametros != null? this.props.parametros.idAsociacion : null}/></li>
+													<li><Select onResults={this._retornoCampo} obligatorio={false} tituloCampo={"Asociación"} campo={"idAsociacion"} url={"asociaciones"} camposMostrar={["codigo", "nombre"]} valor={this.props.parametros != null? this.props.parametros.idAsociacion : null}/></li>
 													<li><InputImage onResults={this._retornoCampo} valor={this.props.parametros != null? this.props.parametros.pathImage : null}/></li>
 													</ul>)
 			})
@@ -158,7 +158,7 @@ export class FormularioTiendas extends Component{
 					console.log("TERMINA PROMESA");
 					resolve("hola")
 	    });*/
-			this.setState({camposFormulario:(<CamposSeleccionables urlCampos="categoriasLocal" campoRelacion="idCategoriaPadre"/>)})
+			this.setState({camposFormulario:(<CamposSeleccionables urlCampos="categoriasLocal" campoRelacion="idCategoriaLocalPadre"/>)})
 
 			/*camposMontar=this._montarCamposSeleccionables()
 		  .then(currentTime => this._montarCamposSeleccionables())
