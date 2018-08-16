@@ -13,6 +13,8 @@ import {Tiendas} from './components/contenido/tiendas/Tiendas'
 import {CategoriasLocal} from './components/contenido/categoriasLocal/CategoriasLocal'
 //import {ListadoAsociaciones} from './components/contenido/asociaciones/ListadoAsociaciones
 import {Asociaciones} from './components/contenido/asociaciones/Asociaciones'
+import {CategoriasProducto} from './components/contenido/categoriasProducto/CategoriasProducto'
+import {Productos} from './components/contenido/productos/Productos'
 
 
 class App extends Component {
@@ -61,8 +63,10 @@ class App extends Component {
         return <CategoriasLocal user={this.state.user} urlRecurso={"categoriasLocal"} estado={"listado"}/>
       break;
       case "productos":
+        return <Productos user={this.state.user} urlRecurso={"producto"} estado={"listado"}/>
       break;
-      case "productosTipo":
+      case "categoriasProducto":
+        return <CategoriasProducto user={this.state.user} urlRecurso={"categoriasProducto"} estado={"listado"}/>
       break;
     }
   }

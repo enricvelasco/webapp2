@@ -40,7 +40,7 @@ export class MenuLateral extends Component{
               <a>Catalogo</a>
               <ul>
                 <li><Link to='/productos' onClick={((e) => this._selectItemMenu(e, 'productos'))}>Productos</Link></li>
-                <li><Link to='/productosTipo' onClick={((e) => this._selectItemMenu(e, 'productosTipo'))}>Tipos Producto</Link></li>
+                <li><Link to='/categoriasProducto' onClick={((e) => this._selectItemMenu(e, 'categoriasProducto'))}>Tipos Producto</Link></li>
               </ul>
             </li>
           </ul>

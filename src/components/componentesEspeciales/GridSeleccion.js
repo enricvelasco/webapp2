@@ -172,7 +172,7 @@ export class GridSeleccion extends Component {
               indexes: this.state.selectedIndexes
             }
           }}
-        minHeight={200}
+        minHeight={500}
         minWidth={400} />
       </div>);
   }

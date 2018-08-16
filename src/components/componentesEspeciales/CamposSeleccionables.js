@@ -39,7 +39,6 @@ export class CamposSeleccionables extends Component{
 						//console.log("CAMPO CONDICION", this.Z);
             //console.log("-----",doc.id, " => ", doc.data());*/
 						if(doc.data()[this.props.campoRelacion] == null){
-						//if(registro.idCaregoriaLocalPadre == null){
 							console.log("ES PADRE", registro.nombre);
 							querySnapshot.forEach((doc)=> {
 								console.log("LOOP HIJO", doc.data());
@@ -89,7 +88,7 @@ export class CamposSeleccionables extends Component{
 					<GridSeleccion
 					columnas={this._columns}
 					rows={val.categoriasHijas}
-					onResults={this._retornoSeleccionesGrid} 
+					onResults={this._retornoSeleccionesGrid}
 					valor={this.props.valor}
 					/>
 					</div>
@@ -113,14 +112,15 @@ export class CamposSeleccionables extends Component{
 	_retornoSeleccionesGrid=(respuesta)=>{
 		console.log("RESPUESTA SELECCIONES", respuesta);
 		var camposSeleccionados = []
+		var campoNombre = this.props.campoRelacion
 		respuesta.map((val) => {
 		    if(val.isSelect){
-					camposSeleccionados.push({idCategoriaLocal:val.id})
+					camposSeleccionados.push({[campoNombre]:val.id})
 				}
 		});
 
 		console.log("RESPUESTA ENVIAR", camposSeleccionados);
-		this.props.onResults("categoriasLocal",camposSeleccionados)
+		this.props.onResults(this.props.urlCampos,camposSeleccionados)
 		/*var arrHijos = []
 		this._rows.forEach((val) => {
 		    val.categoriasHijas.forEach((valHij) => {
