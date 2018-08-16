@@ -67,3 +67,14 @@
 .boton-cancel{
   float: right;
 }
+
+.posicion-grids-seleccon{
+    display:inline-block;
+    margin-left:auto;
+    margin-right:auto;
+    text-align:left;
+}
+
+.centrar-contenido-div{
+  text-align:center;
+}

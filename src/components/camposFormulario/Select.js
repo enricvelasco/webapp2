@@ -33,32 +33,6 @@ export class Select extends Component{
       var query = collection.where(filter[0], filter[1],filter[2]);
       this._consulta(query)
     }
-
-
-
-
-    //db.collection(this.props.url).get().then((querySnapshot) => {
-    /*query.get().then((querySnapshot) => {
-      var arrRet = []
-      var cont = 0;
-        querySnapshot.forEach((doc) =>{
-          console.log("LOOP CONSULTA", doc.id);
-          console.log("LOOP CONSULTA DATA", doc.data());
-          console.log("CAMPO 1", this.props.camposMostrar[1]);
-          let resp = doc.data()
-          let obj = {}
-          //let str="element_"+i
-          obj.id = doc.id
-          obj.name=  resp[this.props.camposMostrar[0]] +"-"+ resp[this.props.camposMostrar[1]]
-          arrRet.push(<option value={doc.id}>{obj.name}</option>)
-          cont ++;
-        });
-        this.setState({
-          camposCombo:arrRet
-        })
-        console.log("RETORNA ARR",this.state);
-        //return arrRet
-    });*/
   }
 
   _consulta=(coll)=>{
@@ -90,6 +64,9 @@ export class Select extends Component{
   }
   _cambioEnSelect=(e)=>{
     console.log("CAMBIO EN SELECT",e.target.value);
+    this.setState({
+      optionState:e.target.value
+    })
     this.props.onResults(this.props.campo, e.target.value)
   }
 
@@ -105,7 +82,7 @@ export class Select extends Component{
                 </div>
                 :
                 <div className="select">
-                  <select onChange={this._cambioEnSelect}>
+                  <select id="valoresList" value={this.state.optionState} onChange={this._cambioEnSelect}>
                     <option value="0">-Seleccione Opción-</option>
                     {this.state.camposCombo}
                   </select>
@@ -118,5 +95,15 @@ export class Select extends Component{
           </ul>
       </div>
     )
+  }
+  componentDidMount=()=>{
+    //this._cambioEnSelect({target:{value:this.props.valor}})
+    if(this.props.valor!=null){
+      this.setState({
+        optionState:this.props.valor
+      })
+    }
+
+    //document.getElementById('valoresList').value="0fLC6ptAUvJbhzbeinmA";
   }
 }

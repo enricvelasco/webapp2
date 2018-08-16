@@ -52,7 +52,7 @@ export class FormularioCategoriasLocal extends Component{
 							<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Código"} campo={"codigo"} valor={this.props.parametros != null? this.props.parametros.codigo : null} maxLength={5}/></li>
 							<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Nombre Categoria"} campo={"nombre"} valor={this.props.parametros != null? this.props.parametros.nombre : null} maxLength={100}/></li>
 							<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Observaciones"} campo={"observaciones"} valor={this.props.parametros != null? this.props.parametros.observaciones : null}/></li>
-							<li><Select onResults={this._retornoCampo} obligatorio={false} tituloCampo={"Categoría Padre"} campo={"idCategoriaLocalPadre"} url={"categoriasLocal"} filtro={["idCategoriaLocalPadre","==",null]} camposMostrar={["codigo", "nombre"]} valor={this.props.parametros != null? this.props.parametros.idAsociacion : null}/></li>
+							<li><Select onResults={this._retornoCampo} obligatorio={false} tituloCampo={"Categoría Padre"} campo={"idCategoriaLocalPadre"} url={"categoriasLocal"} filtro={["idCategoriaLocalPadre","==",null]} camposMostrar={["codigo", "nombre"]} valor={this.props.parametros != null? this.props.parametros.idCategoriaLocalPadre : null}/></li>
 							<li><InputImage onResults={this._retornoCampo} valor={this.props.parametros != null? this.props.parametros.pathImage : null}/></li>
 
 						</ul>

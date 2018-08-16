@@ -1,21 +1,58 @@
 import React, { Component } from 'react';
 const ReactDataGrid = require('react-data-grid');
 
-const rowsSeleccionadas = []
+var rowsSeleccionadas = []
 
 export class GridSeleccion extends Component {
   constructor(props, context) {
     super(props, context);
-    this.createRows();
+
     this._columns = props.columnas
     var rows = props.rows
-    //this.state = { selectedIndexes: [] };
     this.state = { expanded: {}, rows: rows, selectedIndexes: []  };
+    this.createRows();
     console.log("ROWS!!!!!",rows);
   }
 
+  componentDidMount=()=>{
+    console.log("TODO CARGADO");
+    if(this.props.valor!=null){
+      console.log("VALOR != NULL");
+      //var marcarIniciales = []
+      this.props.valor.map((val) => {
+        this._rows.forEach((valRow, loop) => {
+          if(val.idCategoriaLocal==valRow.id){
+            console.log("ACTIVAR", valRow);
+            var arrInicial = []
+            arrInicial.push({row:valRow,rowIdx:loop})
+            this.onRowsSelected(arrInicial)
+          }
+        })
+      });
+    }
+  }
+
   createRows = () => {
+    console.log("CARGA INICIAL", this.props);
     this._rows = this.props.rows;
+    this._rows.forEach((val) => {
+        rowsSeleccionadas.push({id:val.id, isSelect:false})
+    });
+    /*if(this.props.valor!=null){
+      console.log("VALOR != NULL");
+      //var marcarIniciales = []
+      this.props.valor.map((val) => {
+        this._rows.forEach((valRow, loop) => {
+          if(val.idCategoriaLocal==valRow.id){
+            console.log("ACTIVAR", valRow);
+            var arrInicial = []
+            arrInicial.push({row:valRow,rowIdx:loop})
+            this.onRowsSelected(arrInicial)
+          }
+        })
+      });
+    }*/
+    //rowsSeleccionadas
   };
 
   rowGetter = (i) => {
@@ -28,11 +65,22 @@ export class GridSeleccion extends Component {
   };
 
   onRowsSelected = (rows) => {
+    console.log("ROW SELECT", rows);
+    rowsSeleccionadas.map((valor1)=>{
+      rows.map((row)=>{
+        if(row.row.id == valor1.id){
+          console.log("ASIGNA TRUE", valor1.id);
+          valor1.isSelect=true
+        }
+      })
+    });
     this.setState({
       selectedIndexes: this.state.selectedIndexes.concat(
         rows.map(r => r.rowIdx)
       )
     });
+    var unique = Array.from(new Set(rowsSeleccionadas)); // [1,2,3,4,5]
+    this.props.onResults(unique)
   };
 
   getSubRowDetails = (rowItem) => {
@@ -81,8 +129,20 @@ export class GridSeleccion extends Component {
   };
 
   onRowsDeselected = (rows) => {
+    console.log("ROW DESELECT", rows);
+    //rowsSeleccionadas.map(ss => num * 2).filter(num => num > 5);
+    rowsSeleccionadas.map((valor1)=>{
+      rows.map((row)=>{
+        if(row.row.id == valor1.id){
+          valor1.isSelect=false
+        }
+      })
+    });
+
+
     let rowIndexes = rows.map(r => r.rowIdx);
     this.setState({selectedIndexes: this.state.selectedIndexes.filter(i => rowIndexes.indexOf(i) === -1 )});
+    this.props.onResults(rowsSeleccionadas)
   }
   _montarRespuesta = (seleccionados, arrRows) =>{
     var arrResp = []
@@ -92,13 +152,12 @@ export class GridSeleccion extends Component {
     //this.props.onResults(arrResp)
   }
   render() {
-    const rowText = this.state.selectedIndexes.length === 1 ? 'row' : 'rows';
+    //const rowText = this.state.selectedIndexes.length === 1 ? 'row' : 'rows';
     console.log("ROW RENDER", this.state.selectedIndexes);
     console.log("ROW RENDER 2", this.state._rows);
-    this._montarRespuesta(this.state.selectedIndexes, this._rows)
+    //this._montarRespuesta(this.state.selectedIndexes, this._rows)
     return  (
       <div>
-      <span>{this.state.selectedIndexes.length} {rowText} selected</span>
       <ReactDataGrid
         columns={this._columns}
         rowGetter={this.rowGetter}

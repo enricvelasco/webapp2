@@ -23,7 +23,7 @@ export class FormularioTiendas extends Component{
 	_cargarCamposInicial=()=>{
 		this.state.camposFormulario=(<ul>
 												<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Código Tienda"} campo={"codigo"} valor={this.props.parametros != null? this.props.parametros.codigo : null} maxLength={5}/></li>
-												<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Nombre Tienda"} campo={"nombre"} valor={this.props.parametros != null? this.props.parametros.nombreAsociacion : null} maxLength={100}/></li>
+												<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Nombre Tienda"} campo={"nombre"} valor={this.props.parametros != null? this.props.parametros.nombre : null} maxLength={100}/></li>
 												<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Email"} campo={"email"} valor={this.props.parametros != null? this.props.parametros.email : null}/></li>
 												<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Telefono"} campo={"telefono"} valor={this.props.parametros != null? this.props.parametros.telefono : null}/></li>
 												<li><Select onResults={this._retornoCampo} obligatorio={false} tituloCampo={"Asociación"} campo={"idAsociacion"} url={"asociaciones"} camposMostrar={["codigo", "nombre"]} valor={this.props.parametros != null? this.props.parametros.idAsociacion : null}/></li>
@@ -122,7 +122,7 @@ export class FormularioTiendas extends Component{
 			this.setState({
 				camposFormulario:(<ul>
 													<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Código Tienda"} campo={"codigo"} valor={this.props.parametros != null? this.props.parametros.codigo : null} maxLength={5}/></li>
-													<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Nombre Tienda"} campo={"nombre"} valor={this.props.parametros != null? this.props.parametros.nombreAsociacion : null} maxLength={100}/></li>
+													<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Nombre Tienda"} campo={"nombre"} valor={this.props.parametros != null? this.props.parametros.nombre : null} maxLength={100}/></li>
 													<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Email"} campo={"email"} valor={this.props.parametros != null? this.props.parametros.email : null}/></li>
 													<li><InputText onResults={this._retornoCampo} obligatorio={true} tituloCampo={"Telefono"} campo={"telefono"} valor={this.props.parametros != null? this.props.parametros.telefono : null}/></li>
 													<li><Select onResults={this._retornoCampo} obligatorio={false} tituloCampo={"Asociación"} campo={"idAsociacion"} url={"asociaciones"} camposMostrar={["codigo", "nombre"]} valor={this.props.parametros != null? this.props.parametros.idAsociacion : null}/></li>
@@ -158,7 +158,7 @@ export class FormularioTiendas extends Component{
 					console.log("TERMINA PROMESA");
 					resolve("hola")
 	    });*/
-			this.setState({camposFormulario:(<CamposSeleccionables urlCampos="categoriasLocal" campoRelacion="idCategoriaLocalPadre"/>)})
+			this.setState({camposFormulario:(<ul><li><CamposSeleccionables onResults={this._retornoCampo} urlCampos="categoriasLocal" campoRelacion="idCategoriaLocalPadre" valor={this.props.parametros != null? this.props.parametros.categoriasLocal : null}/></li></ul>)})
 
 			/*camposMontar=this._montarCamposSeleccionables()
 		  .then(currentTime => this._montarCamposSeleccionables())
@@ -210,11 +210,13 @@ export class FormularioTiendas extends Component{
 						<li className={this._isActive(2)} onClick={() => this._changeActiveTab(2)}><a>Categorías Asignadas</a></li>
 					</ul>
 				</div>
-				{this.state.camposFormulario==null?
-					<Loading/>
-					:
-					this.state.camposFormulario
-				}
+				<div>
+					{this.state.camposFormulario==null?
+						<Loading/>
+						:
+						this.state.camposFormulario
+					}
+				</div>
 				<div className="columns">
 					<div className="column is-half">
 						<button className="button is-primary boton-save" onClick={

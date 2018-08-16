@@ -4,6 +4,7 @@ import db from '../../firebase'
 import {Loading} from '../Loading'
 import {GridSeleccion} from './GridSeleccion'
 
+//var selecciones = []
 export class CamposSeleccionables extends Component{
 	constructor(props) {
     super(props);
@@ -11,6 +12,7 @@ export class CamposSeleccionables extends Component{
       loading:true,
 			htmlGrid:<div className="column">hola</div>
     }
+
 		console.log("CONSTRUCTR CAMPOS SELECCIONABLES");
     this._cargarDatos();
   }
@@ -82,21 +84,55 @@ export class CamposSeleccionables extends Component{
 			console.log("VALOR LOOP",val);
 			this.setState(
 				{htmlGrid:
-					<div className="column"><p>{val.codigo}-{val.nombre}</p><GridSeleccion columnas={this._columns} rows={val.categoriasHijas} onResults={this._retornoSeleccionesGrid}/></div>
+					<div className="posicion-grids-seleccon campo-input-generico-padding">
+					<p>{val.codigo}-{val.nombre}</p>
+					<GridSeleccion
+					columnas={this._columns}
+					rows={val.categoriasHijas}
+					onResults={this._retornoSeleccionesGrid} 
+					valor={this.props.valor}
+					/>
+					</div>
 				})
 			this._arrGrids.push(this.state.htmlGrid)
+			//cont++
 			//content = '<div className="column"><GridSeleccion columnas={this._columns} rows={val.categoriasHijas} onResults={this._retornoSeleccionesGrid}/></div>'
 		})
 
 		/*return(<div className="columns is-desktop"><div className="column"><GridSeleccion columnas={this._columns} rows={this._rows[0].categoriasHijas} onResults={this._retornoSeleccionesGrid}/></div>
 			<div className="column"><GridSeleccion columnas={this._columns} rows={this._rows[1].categoriasHijas} onResults={this._retornoSeleccionesGrid}/></div>
 			</div>)*/
-			this.setState({camposGrid:<div className="columns is-desktop">
+			this.setState({camposGrid:<div className="centrar-contenido-div">
 				{this._arrGrids}
 				</div>})
 
 				this.setState({loading:false})
 			//return(startComp content endComp)
+	}
+
+	_retornoSeleccionesGrid=(respuesta)=>{
+		console.log("RESPUESTA SELECCIONES", respuesta);
+		var camposSeleccionados = []
+		respuesta.map((val) => {
+		    if(val.isSelect){
+					camposSeleccionados.push({idCategoriaLocal:val.id})
+				}
+		});
+
+		console.log("RESPUESTA ENVIAR", camposSeleccionados);
+		this.props.onResults("categoriasLocal",camposSeleccionados)
+		/*var arrHijos = []
+		this._rows.forEach((val) => {
+		    val.categoriasHijas.forEach((valHij) => {
+					arrHijos.push(valHij)
+				}
+		});
+
+		arrHijos.forEach((val) => {
+				respuesta.forEach((valResp)=>{
+
+				})
+		});*/
 	}
 
   render(){
